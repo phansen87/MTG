@@ -1,0 +1,1793 @@
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.CountDownTimer;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.text.InputType;
+import android.text.Layout;
+import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+import org.w3c.dom.Text;
+
+
+public class MainActivity extends ActionBarActivity{
+
+    //primary screen
+    public TextView playerCounter;
+    public TextView turnCounter;
+    public TextView beingChangedID;
+
+    public TextView player1Health;
+    public TextView player1Poison;
+    public TextView player1DeckSize;
+    public TextView player1GraveyardSize;
+    public TextView player1HandSize;
+    
+    public TextView player2Health;
+    public TextView player2Poison;
+    public TextView player2DeckSize;
+    public TextView player2GraveyardSize;
+    public TextView player2HandSize;
+
+    public TextView player3Health;
+    public TextView player3Poison;
+    public TextView player3DeckSize;
+    public TextView player3GraveyardSize;
+    public TextView player3HandSize;
+
+    public TextView player4Health;
+    public TextView player4Poison;
+    public TextView player4DeckSize;
+    public TextView player4GraveyardSize;
+    public TextView player4HandSize;
+
+    public TextView player5Health;
+    public TextView player5Poison;
+    public TextView player5DeckSize;
+    public TextView player5GraveyardSize;
+    public TextView player5HandSize;
+
+    public TextView player6Health;
+    public TextView player6Poison;
+    public TextView player6DeckSize;
+    public TextView player6GraveyardSize;
+    public TextView player6HandSize;
+
+    public TextView player1NameText;
+    public TextView player2NameText;
+    public TextView player3NameText;
+    public TextView player4NameText;
+    public TextView player5NameText;
+    public TextView player6NameText;
+
+    //player information screen
+    public TextView playerInformation;
+    public EditText startingLifeTotal;
+    public EditText startingDeckSize;
+    public EditText playerName;
+
+    //main screen
+    public Spinner numberOfPlayers;
+    public CheckBox timeLimitCB;
+    public Integer timeLimitCBIsChecked;
+
+    //Integers
+    public Integer player1HealthInteger;
+    public Integer player1PoisonInteger;
+    public Integer player1DeckSizeInteger;
+    public Integer player1GraveyardSizeInteger;
+    public Integer player2HealthInteger;
+    public Integer player2PoisonInteger;
+    public Integer player2DeckSizeInteger;
+    public Integer player2GraveyardSizeInteger;
+    public Integer player3HealthInteger;
+    public Integer player3PoisonInteger;
+    public Integer player3DeckSizeInteger;
+    public Integer player3GraveyardSizeInteger;
+    public Integer player4HealthInteger;
+    public Integer player4PoisonInteger;
+    public Integer player4DeckSizeInteger;
+    public Integer player4GraveyardSizeInteger;
+    public Integer player5HealthInteger;
+    public Integer player5PoisonInteger;
+    public Integer player5DeckSizeInteger;
+    public Integer player5GraveyardSizeInteger;
+    public Integer player6HealthInteger;
+    public Integer player6PoisonInteger;
+    public Integer player6DeckSizeInteger;
+    public Integer player6GraveyardSizeInteger;
+    public Integer player7HealthInteger;
+    public Integer player7PoisonInteger;
+    public Integer player7DeckSizeInteger;
+    public Integer player7GraveyardSizeInteger;
+    public Integer player8HealthInteger;
+    public Integer player8PoisonInteger;
+    public Integer player8DeckSizeInteger;
+    public Integer player8GraveyardSizeInteger;
+    public Integer player9HealthInteger;
+    public Integer player9PoisonInteger;
+    public Integer player9DeckSizeInteger;
+    public Integer player9GraveyardSizeInteger;
+    public Integer player10HealthInteger;
+    public Integer player10PoisonInteger;
+    public Integer player10DeckSizeInteger;
+    public Integer player10GraveyardSizeInteger;
+
+    public Integer player1HandSizeInteger;
+    public Integer player2HandSizeInteger;
+    public Integer player3HandSizeInteger;
+    public Integer player4HandSizeInteger;
+    public Integer player5HandSizeInteger;
+    public Integer player6HandSizeInteger;
+
+    public Integer currentPlayer;
+    public Integer playerCounterInteger;
+    public Integer turnCounterInteger;
+    public Integer timerCounterInteger;
+    public Integer numberOfPlayersInteger;
+    public Integer beingChangedInteger;
+
+    //Strings
+    public String player1Name = "";
+    public String player2Name = "";
+    public String player3Name = "";
+    public String player4Name = "";
+    public String player5Name = "";
+    public String player6Name = "";
+
+    //Timer Values
+    public CountDownTimer Count;
+    public Integer countInteger;
+    public Integer timerTime;
+    public boolean counterRunning;
+
+
+
+
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mainScreen();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+
+    }
+
+    public void mainScreen(){
+
+        setContentView(R.layout.activity_main);
+        LoadAds();
+
+        numberOfPlayers = (Spinner) findViewById(R.id.numberOfPlayers);
+
+        numberOfPlayers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+                String itemValue = (String) numberOfPlayers.getItemAtPosition(position);
+                numberOfPlayersInteger = Integer.parseInt(itemValue);
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> View){
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed(){
+
+        exitApp();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_help) {
+
+            helpScreen();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void Counter(){
+
+        final TextView timerMinutes = (TextView) findViewById(R.id.timerMinutes);
+        final TextView timerSeconds = (TextView) findViewById(R.id.timerSeconds);
+
+
+        countInteger = countInteger - 1;
+        timerTime = 60000;
+
+        timerMinutes.setText("60");
+
+        Count = new CountDownTimer(timerTime, 1000){
+
+            public void onTick(long millisUntilFinished) {
+                int seconds = (int) ((millisUntilFinished / 1000));
+
+                counterRunning = true;
+                timerSeconds.setText("" + seconds);
+                timerMinutes.setText(countInteger.toString());
+
+            }
+            public void onFinish(){
+
+                if(countInteger > 0) {
+                    countInteger = countInteger - 1;
+                    timerTime = 60000;
+                    Count.start();
+                    timerMinutes.setText(countInteger.toString());
+                }
+            }};
+        Count.start();
+    }
+
+    //load ads
+
+    public void LoadAds(){
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
+
+    //Get Player Information
+
+    public void startGame(View v){
+
+        //set GraveyardSize and Poison Integers Base Values
+        switch(numberOfPlayersInteger){
+            case 2:
+                twoPlayerGame();
+                break;
+            case 3:
+                threePlayerGame();
+                break;
+            case 4:
+                fourPlayerGame();
+                break;
+            case 5:
+                fivePlayerGame();
+                break;
+            case 6:
+                sixPlayerGame();
+                break;
+            default:
+                break;
+
+        }
+
+        //set current player to 1
+        currentPlayer = 1;
+
+        timeLimitCB = (CheckBox) findViewById(R.id.timeLimitCB);
+        if(timeLimitCB.isChecked()){
+            setTimerPopup();
+            timeLimitCBIsChecked = 1;
+        }
+        else{
+
+            //get Player Information
+            playerInfomation();
+            timeLimitCBIsChecked = 0;
+        }
+
+
+
+
+    }
+
+    public void playerInfomation(){
+
+        setContentView(R.layout.player_information);
+        LoadAds();
+        playerInformation = (TextView) findViewById(R.id.playerInformation);
+        playerInformation.setText("Player " + currentPlayer + " Information");
+
+        player1NameText = (TextView) findViewById(R.id.playerNameTextBox);
+        player1NameText.setText(player1Name);
+
+
+    }
+
+    public void nextPlayer(View v){
+
+        nextPlayer();
+
+    }
+
+    public void nextPlayer(){
+        startingLifeTotal = (EditText) findViewById(R.id.startingLifeTotal);
+        startingDeckSize = (EditText) findViewById(R.id.startingDeckSize);
+        playerInformation = (TextView) findViewById(R.id.playerInformation);
+        playerName = (EditText) findViewById(R.id.playerNameTextBox);
+
+        switch(currentPlayer){
+            case 1:
+                player1HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player1DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                player1Name = playerName.getText().toString();
+                break;
+            case 2:
+                player2HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player2DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                player2Name = playerName.getText().toString();
+                break;
+            case 3:
+                player3HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player3DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                player3Name = playerName.getText().toString();
+                break;
+            case 4:
+                player4HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player4DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                player4Name = playerName.getText().toString();
+                break;
+            case 5:
+                player5HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player5DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                player5Name = playerName.getText().toString();
+                break;
+            case 6:
+                player6HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player6DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                player6Name = playerName.getText().toString();
+                break;
+
+            default:
+                break;
+
+        }
+
+        if(currentPlayer < numberOfPlayersInteger) {
+            currentPlayer = currentPlayer + 1;
+            playerInformation.setText("Player " + currentPlayer + " Information");
+            switch(currentPlayer){
+                case 1:
+                    startingLifeTotal.setText(player1HealthInteger.toString());
+                    startingDeckSize.setText(player1DeckSizeInteger.toString());
+                    playerName.setText(player1Name);
+                    break;
+                case 2:
+                    startingLifeTotal.setText(player2HealthInteger.toString());
+                    startingDeckSize.setText(player2DeckSizeInteger.toString());
+                    playerName.setText(player2Name);
+                    break;
+                case 3:
+                    startingLifeTotal.setText(player3HealthInteger.toString());
+                    startingDeckSize.setText(player3DeckSizeInteger.toString());
+                    playerName.setText(player3Name);
+                    break;
+                case 4:
+                    startingLifeTotal.setText(player4HealthInteger.toString());
+                    startingDeckSize.setText(player4DeckSizeInteger.toString());
+                    playerName.setText(player4Name);
+                    break;
+                case 5:
+                    startingLifeTotal.setText(player5HealthInteger.toString());
+                    startingDeckSize.setText(player5DeckSizeInteger.toString());
+                    playerName.setText(player5Name);
+                    break;
+                case 6:
+                    startingLifeTotal.setText(player6HealthInteger.toString());
+                    startingDeckSize.setText(player6DeckSizeInteger.toString());
+                    playerName.setText(player6Name);
+                    break;
+
+                default:
+                    break;
+
+            };
+        }
+        else{
+            currentPlayer = 1;
+            playerInformation.setText("Player " + currentPlayer + " Information");
+            switch(currentPlayer){
+                case 1:
+                    startingLifeTotal.setText(player1HealthInteger.toString());
+                    startingDeckSize.setText(player1DeckSizeInteger.toString());
+                    playerName.setText(player1Name);
+                    break;
+                case 2:
+                    startingLifeTotal.setText(player2HealthInteger.toString());
+                    startingDeckSize.setText(player2DeckSizeInteger.toString());
+                    playerName.setText(player2Name);
+                    break;
+                case 3:
+                    startingLifeTotal.setText(player3HealthInteger.toString());
+                    startingDeckSize.setText(player3DeckSizeInteger.toString());
+                    playerName.setText(player3Name);
+                    break;
+                case 4:
+                    startingLifeTotal.setText(player4HealthInteger.toString());
+                    startingDeckSize.setText(player4DeckSizeInteger.toString());
+                    playerName.setText(player4Name);
+                    break;
+                case 5:
+                    startingLifeTotal.setText(player5HealthInteger.toString());
+                    startingDeckSize.setText(player5DeckSizeInteger.toString());
+                    playerName.setText(player5Name);
+                    break;
+                case 6:
+                    startingLifeTotal.setText(player6HealthInteger.toString());
+                    startingDeckSize.setText(player6DeckSizeInteger.toString());
+                    playerName.setText(player6Name);
+                    break;
+                default:
+                    break;
+
+            };
+        }
+    }
+
+    public void previousPlayer(View v){
+        startingLifeTotal = (EditText) findViewById(R.id.startingLifeTotal);
+        startingDeckSize = (EditText) findViewById(R.id.startingDeckSize);
+        playerInformation = (TextView) findViewById(R.id.playerInformation);
+
+        switch(currentPlayer){
+            case 1:
+                player1HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player1DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                break;
+            case 2:
+                player2HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player2DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                break;
+            case 3:
+                player3HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player3DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                break;
+            case 4:
+                player4HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player4DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                break;
+            case 5:
+                player5HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player5DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                break;
+            case 6:
+                player6HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player6DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                break;
+            case 7:
+                player7HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player7DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                break;
+            case 8:
+                player8HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player8DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                break;
+            case 9:
+                player9HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player9DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                break;
+            case 10:
+                player10HealthInteger = Integer.parseInt(startingLifeTotal.getText().toString());
+                player10DeckSizeInteger = Integer.parseInt(startingDeckSize.getText().toString());
+                break;
+            default:
+                break;
+
+        }
+
+        if(currentPlayer > 1) {
+            currentPlayer = currentPlayer - 1;
+        }
+        else{
+            currentPlayer = numberOfPlayersInteger;
+        }
+        playerInformation.setText("Player " + currentPlayer + " Information");
+
+        switch(currentPlayer){
+            case 1:
+                startingLifeTotal.setText(player1HealthInteger.toString());
+                startingDeckSize.setText(player1DeckSizeInteger.toString());
+                break;
+            case 2:
+                startingLifeTotal.setText(player2HealthInteger.toString());
+                startingDeckSize.setText(player2DeckSizeInteger.toString());
+                break;
+            case 3:
+                startingLifeTotal.setText(player3HealthInteger.toString());
+                startingDeckSize.setText(player3DeckSizeInteger.toString());
+                break;
+            case 4:
+                startingLifeTotal.setText(player4HealthInteger.toString());
+                startingDeckSize.setText(player4DeckSizeInteger.toString());
+                break;
+            case 5:
+                startingLifeTotal.setText(player5HealthInteger.toString());
+                startingDeckSize.setText(player5DeckSizeInteger.toString());
+                break;
+            case 6:
+                startingLifeTotal.setText(player6HealthInteger.toString());
+                startingDeckSize.setText(player6DeckSizeInteger.toString());
+                break;
+            case 7:
+                startingLifeTotal.setText(player7HealthInteger.toString());
+                startingDeckSize.setText(player7DeckSizeInteger.toString());
+                break;
+            case 8:
+                startingLifeTotal.setText(player8HealthInteger.toString());
+                startingDeckSize.setText(player8DeckSizeInteger.toString());
+                break;
+            case 9:
+                startingLifeTotal.setText(player9HealthInteger.toString());
+                startingDeckSize.setText(player9DeckSizeInteger.toString());
+                break;
+            case 10:
+                startingLifeTotal.setText(player10HealthInteger.toString());
+                startingDeckSize.setText(player10DeckSizeInteger.toString());
+                break;
+            default:
+                break;
+
+        }
+
+    }
+
+    //Start the Game
+
+    public void startGamePlayerInformation(View v){
+
+        beingChangedInteger = 0;
+        nextPlayer();
+
+
+        switch(numberOfPlayersInteger){
+            case 2:
+                setContentView(R.layout.primary_screen);
+
+                  player1Health = (TextView) findViewById(R.id.player1Health);
+                  player1Poison = (TextView) findViewById(R.id.player1Poison);
+                  player1DeckSize = (TextView) findViewById(R.id.player1DeckSize);
+                  player1GraveyardSize = (TextView) findViewById(R.id.player1GraveyardSize);
+                  player1HandSize = (TextView) findViewById(R.id.player1HandSize);
+
+                player1Health.setText(player1HealthInteger.toString());
+                player1Poison.setText(player1PoisonInteger.toString());
+                player1DeckSize.setText(player1DeckSizeInteger.toString());
+                player1GraveyardSize.setText(player1GraveyardSizeInteger.toString());
+                player1HandSize.setText(player1HandSizeInteger.toString());
+
+                  player2Health = (TextView) findViewById(R.id.player2Health);
+                  player2Poison = (TextView) findViewById(R.id.player2Poison);
+                  player2DeckSize = (TextView) findViewById(R.id.player2DeckSize);
+                  player2GraveyardSize = (TextView) findViewById(R.id.player2GraveyardSize);
+                  player2HandSize = (TextView) findViewById(R.id.player2HandSize);
+
+                player2Health.setText(player2HealthInteger.toString());
+                player2Poison.setText(player2PoisonInteger.toString());
+                player2DeckSize.setText(player2DeckSizeInteger.toString());
+                player2GraveyardSize.setText(player2GraveyardSizeInteger.toString());
+                player2HandSize.setText(player2HandSizeInteger.toString());
+
+                //set player names
+                player1NameText = (TextView) findViewById(R.id.player1Name);
+                player2NameText = (TextView) findViewById(R.id.player2Name);
+
+                player1NameText.setText(player1Name);
+                player2NameText.setText(player2Name);
+
+
+                break;
+            case 3:
+                setContentView(R.layout.primary_screen_threeplayer);
+
+                player1Health = (TextView) findViewById(R.id.player1Health);
+                player1Poison = (TextView) findViewById(R.id.player1Poison);
+                player1DeckSize = (TextView) findViewById(R.id.player1DeckSize);
+                player1GraveyardSize = (TextView) findViewById(R.id.player1GraveyardSize);
+                player1HandSize = (TextView) findViewById(R.id.player1HandSize);
+
+                player1Health.setText(player1HealthInteger.toString());
+                player1Poison.setText(player1PoisonInteger.toString());
+                player1DeckSize.setText(player1DeckSizeInteger.toString());
+                player1GraveyardSize.setText(player1GraveyardSizeInteger.toString());
+                player1HandSize.setText(player1HandSizeInteger.toString());
+
+                player2Health = (TextView) findViewById(R.id.player2Health);
+                player2Poison = (TextView) findViewById(R.id.player2Poison);
+                player2DeckSize = (TextView) findViewById(R.id.player2DeckSize);
+                player2GraveyardSize = (TextView) findViewById(R.id.player2GraveyardSize);
+                player2HandSize = (TextView) findViewById(R.id.player2HandSize);
+
+                player2Health.setText(player2HealthInteger.toString());
+                player2Poison.setText(player2PoisonInteger.toString());
+                player2DeckSize.setText(player2DeckSizeInteger.toString());
+                player2GraveyardSize.setText(player2GraveyardSizeInteger.toString());
+                player2HandSize.setText(player2HandSizeInteger.toString());
+
+                player3Health = (TextView) findViewById(R.id.player3Health);
+                player3Poison = (TextView) findViewById(R.id.player3Poison);
+                player3DeckSize = (TextView) findViewById(R.id.player3DeckSize);
+                player3GraveyardSize = (TextView) findViewById(R.id.player3GraveyardSize);
+                player3HandSize = (TextView) findViewById(R.id.player3HandSize);
+
+                player3Health.setText(player3HealthInteger.toString());
+                player3Poison.setText(player3PoisonInteger.toString());
+                player3DeckSize.setText(player3DeckSizeInteger.toString());
+                player3GraveyardSize.setText(player3GraveyardSizeInteger.toString());
+                player3HandSize.setText(player3HandSizeInteger.toString());
+
+                //set player names
+                player1NameText = (TextView) findViewById(R.id.player1Name);
+                player2NameText = (TextView) findViewById(R.id.player2Name);
+                player3NameText = (TextView) findViewById(R.id.player3Name);
+
+                player1NameText.setText(player1Name);
+                player2NameText.setText(player2Name);
+                player3NameText.setText(player3Name);
+
+                break;
+            case 4:
+
+                setContentView(R.layout.primary_screen_fourplayer);
+
+                player1Health = (TextView) findViewById(R.id.player1Health);
+                player1Poison = (TextView) findViewById(R.id.player1Poison);
+                player1DeckSize = (TextView) findViewById(R.id.player1DeckSize);
+                player1GraveyardSize = (TextView) findViewById(R.id.player1GraveyardSize);
+                player1HandSize = (TextView) findViewById(R.id.player1HandSize);
+
+                player1Health.setText(player1HealthInteger.toString());
+                player1Poison.setText(player1PoisonInteger.toString());
+                player1DeckSize.setText(player1DeckSizeInteger.toString());
+                player1GraveyardSize.setText(player1GraveyardSizeInteger.toString());
+                player1HandSize.setText(player1HandSizeInteger.toString());
+
+                player2Health = (TextView) findViewById(R.id.player2Health);
+                player2Poison = (TextView) findViewById(R.id.player2Poison);
+                player2DeckSize = (TextView) findViewById(R.id.player2DeckSize);
+                player2GraveyardSize = (TextView) findViewById(R.id.player2GraveyardSize);
+                player2HandSize = (TextView) findViewById(R.id.player2HandSize);
+
+                player2Health.setText(player2HealthInteger.toString());
+                player2Poison.setText(player2PoisonInteger.toString());
+                player2DeckSize.setText(player2DeckSizeInteger.toString());
+                player2GraveyardSize.setText(player2GraveyardSizeInteger.toString());
+                player2HandSize.setText(player2HandSizeInteger.toString());
+
+                player3Health = (TextView) findViewById(R.id.player3Health);
+                player3Poison = (TextView) findViewById(R.id.player3Poison);
+                player3DeckSize = (TextView) findViewById(R.id.player3DeckSize);
+                player3GraveyardSize = (TextView) findViewById(R.id.player3GraveyardSize);
+                player3HandSize = (TextView) findViewById(R.id.player3HandSize);
+
+                player3Health.setText(player3HealthInteger.toString());
+                player3Poison.setText(player3PoisonInteger.toString());
+                player3DeckSize.setText(player3DeckSizeInteger.toString());
+                player3GraveyardSize.setText(player3GraveyardSizeInteger.toString());
+                player3HandSize.setText(player3HandSizeInteger.toString());
+
+                player4Health = (TextView) findViewById(R.id.player4Health);
+                player4Poison = (TextView) findViewById(R.id.player4Poison);
+                player4DeckSize = (TextView) findViewById(R.id.player4DeckSize);
+                player4GraveyardSize = (TextView) findViewById(R.id.player4GraveyardSize);
+                player4HandSize = (TextView) findViewById(R.id.player4HandSize);
+
+                player4Health.setText(player4HealthInteger.toString());
+                player4Poison.setText(player4PoisonInteger.toString());
+                player4DeckSize.setText(player4DeckSizeInteger.toString());
+                player4GraveyardSize.setText(player4GraveyardSizeInteger.toString());
+                player4HandSize.setText(player4HandSizeInteger.toString());
+
+                //set player names
+                player1NameText = (TextView) findViewById(R.id.player1Name);
+                player2NameText = (TextView) findViewById(R.id.player2Name);
+                player3NameText = (TextView) findViewById(R.id.player3Name);
+                player4NameText = (TextView) findViewById(R.id.player4Name);
+
+                player1NameText.setText(player1Name);
+                player2NameText.setText(player2Name);
+                player3NameText.setText(player3Name);
+                player4NameText.setText(player4Name);
+                
+                break;
+            case 5:
+
+                setContentView(R.layout.primary_screen_fiveplayer);
+
+                player1Health = (TextView) findViewById(R.id.player1Health);
+                player1Poison = (TextView) findViewById(R.id.player1Poison);
+                player1DeckSize = (TextView) findViewById(R.id.player1DeckSize);
+                player1GraveyardSize = (TextView) findViewById(R.id.player1GraveyardSize);
+                player1HandSize = (TextView) findViewById(R.id.player1HandSize);
+
+                player1Health.setText(player1HealthInteger.toString());
+                player1Poison.setText(player1PoisonInteger.toString());
+                player1DeckSize.setText(player1DeckSizeInteger.toString());
+                player1GraveyardSize.setText(player1GraveyardSizeInteger.toString());
+                player1HandSize.setText(player1HandSizeInteger.toString());
+
+                player2Health = (TextView) findViewById(R.id.player2Health);
+                player2Poison = (TextView) findViewById(R.id.player2Poison);
+                player2DeckSize = (TextView) findViewById(R.id.player2DeckSize);
+                player2GraveyardSize = (TextView) findViewById(R.id.player2GraveyardSize);
+                player2HandSize = (TextView) findViewById(R.id.player2HandSize);
+
+                player2Health.setText(player2HealthInteger.toString());
+                player2Poison.setText(player2PoisonInteger.toString());
+                player2DeckSize.setText(player2DeckSizeInteger.toString());
+                player2GraveyardSize.setText(player2GraveyardSizeInteger.toString());
+                player2HandSize.setText(player2HandSizeInteger.toString());
+
+                player3Health = (TextView) findViewById(R.id.player3Health);
+                player3Poison = (TextView) findViewById(R.id.player3Poison);
+                player3DeckSize = (TextView) findViewById(R.id.player3DeckSize);
+                player3GraveyardSize = (TextView) findViewById(R.id.player3GraveyardSize);
+                player3HandSize = (TextView) findViewById(R.id.player3HandSize);
+
+                player3Health.setText(player3HealthInteger.toString());
+                player3Poison.setText(player3PoisonInteger.toString());
+                player3DeckSize.setText(player3DeckSizeInteger.toString());
+                player3GraveyardSize.setText(player3GraveyardSizeInteger.toString());
+                player3HandSize.setText(player3HandSizeInteger.toString());
+
+                player4Health = (TextView) findViewById(R.id.player4Health);
+                player4Poison = (TextView) findViewById(R.id.player4Poison);
+                player4DeckSize = (TextView) findViewById(R.id.player4DeckSize);
+                player4GraveyardSize = (TextView) findViewById(R.id.player4GraveyardSize);
+                player4HandSize = (TextView) findViewById(R.id.player4HandSize);
+
+                player4Health.setText(player4HealthInteger.toString());
+                player4Poison.setText(player4PoisonInteger.toString());
+                player4DeckSize.setText(player4DeckSizeInteger.toString());
+                player4GraveyardSize.setText(player4GraveyardSizeInteger.toString());
+                player4HandSize.setText(player4HandSizeInteger.toString());
+
+                player5Health = (TextView) findViewById(R.id.player5Health);
+                player5Poison = (TextView) findViewById(R.id.player5Poison);
+                player5DeckSize = (TextView) findViewById(R.id.player5DeckSize);
+                player5GraveyardSize = (TextView) findViewById(R.id.player5GraveyardSize);
+                player5HandSize = (TextView) findViewById(R.id.player5HandSize);
+
+                player5Health.setText(player5HealthInteger.toString());
+                player5Poison.setText(player5PoisonInteger.toString());
+                player5DeckSize.setText(player5DeckSizeInteger.toString());
+                player5GraveyardSize.setText(player5GraveyardSizeInteger.toString());
+                player5HandSize.setText(player5HandSizeInteger.toString());
+
+                //set player names
+                player1NameText = (TextView) findViewById(R.id.player1Name);
+                player2NameText = (TextView) findViewById(R.id.player2Name);
+                player3NameText = (TextView) findViewById(R.id.player3Name);
+                player4NameText = (TextView) findViewById(R.id.player4Name);
+                player5NameText = (TextView) findViewById(R.id.player5Name);
+
+                player1NameText.setText(player1Name);
+                player2NameText.setText(player2Name);
+                player3NameText.setText(player3Name);
+                player4NameText.setText(player4Name);
+                player5NameText.setText(player5Name);
+                
+                break;
+            case 6:
+
+                setContentView(R.layout.primary_screen_sixplayer);
+
+                player1Health = (TextView) findViewById(R.id.player1Health);
+                player1Poison = (TextView) findViewById(R.id.player1Poison);
+                player1DeckSize = (TextView) findViewById(R.id.player1DeckSize);
+                player1GraveyardSize = (TextView) findViewById(R.id.player1GraveyardSize);
+                player1HandSize = (TextView) findViewById(R.id.player1HandSize);
+
+                player1Health.setText(player1HealthInteger.toString());
+                player1Poison.setText(player1PoisonInteger.toString());
+                player1DeckSize.setText(player1DeckSizeInteger.toString());
+                player1GraveyardSize.setText(player1GraveyardSizeInteger.toString());
+                player1HandSize.setText(player1HandSizeInteger.toString());
+
+                player2Health = (TextView) findViewById(R.id.player2Health);
+                player2Poison = (TextView) findViewById(R.id.player2Poison);
+                player2DeckSize = (TextView) findViewById(R.id.player2DeckSize);
+                player2GraveyardSize = (TextView) findViewById(R.id.player2GraveyardSize);
+                player2HandSize = (TextView) findViewById(R.id.player2HandSize);
+
+                player2Health.setText(player2HealthInteger.toString());
+                player2Poison.setText(player2PoisonInteger.toString());
+                player2DeckSize.setText(player2DeckSizeInteger.toString());
+                player2GraveyardSize.setText(player2GraveyardSizeInteger.toString());
+                player2HandSize.setText(player2HandSizeInteger.toString());
+
+                player3Health = (TextView) findViewById(R.id.player3Health);
+                player3Poison = (TextView) findViewById(R.id.player3Poison);
+                player3DeckSize = (TextView) findViewById(R.id.player3DeckSize);
+                player3GraveyardSize = (TextView) findViewById(R.id.player3GraveyardSize);
+                player3HandSize = (TextView) findViewById(R.id.player3HandSize);
+
+                player3Health.setText(player3HealthInteger.toString());
+                player3Poison.setText(player3PoisonInteger.toString());
+                player3DeckSize.setText(player3DeckSizeInteger.toString());
+                player3GraveyardSize.setText(player3GraveyardSizeInteger.toString());
+                player3HandSize.setText(player3HandSizeInteger.toString());
+
+                player4Health = (TextView) findViewById(R.id.player4Health);
+                player4Poison = (TextView) findViewById(R.id.player4Poison);
+                player4DeckSize = (TextView) findViewById(R.id.player4DeckSize);
+                player4GraveyardSize = (TextView) findViewById(R.id.player4GraveyardSize);
+                player4HandSize = (TextView) findViewById(R.id.player4HandSize);
+
+                player4Health.setText(player4HealthInteger.toString());
+                player4Poison.setText(player4PoisonInteger.toString());
+                player4DeckSize.setText(player4DeckSizeInteger.toString());
+                player4GraveyardSize.setText(player4GraveyardSizeInteger.toString());
+                player4HandSize.setText(player4HandSizeInteger.toString());
+
+                player5Health = (TextView) findViewById(R.id.player5Health);
+                player5Poison = (TextView) findViewById(R.id.player5Poison);
+                player5DeckSize = (TextView) findViewById(R.id.player5DeckSize);
+                player5GraveyardSize = (TextView) findViewById(R.id.player5GraveyardSize);
+                player5HandSize = (TextView) findViewById(R.id.player5HandSize);
+
+                player5Health.setText(player5HealthInteger.toString());
+                player5Poison.setText(player5PoisonInteger.toString());
+                player5DeckSize.setText(player5DeckSizeInteger.toString());
+                player5GraveyardSize.setText(player5GraveyardSizeInteger.toString());
+                player5HandSize.setText(player5HandSizeInteger.toString());
+
+                player6Health = (TextView) findViewById(R.id.player6Health);
+                player6Poison = (TextView) findViewById(R.id.player6Poison);
+                player6DeckSize = (TextView) findViewById(R.id.player6DeckSize);
+                player6GraveyardSize = (TextView) findViewById(R.id.player6GraveyardSize);
+                player6HandSize = (TextView) findViewById(R.id.player6HandSize);
+
+                player6Health.setText(player6HealthInteger.toString());
+                player6Poison.setText(player6PoisonInteger.toString());
+                player6DeckSize.setText(player6DeckSizeInteger.toString());
+                player6GraveyardSize.setText(player6GraveyardSizeInteger.toString());
+                player6HandSize.setText(player6HandSizeInteger.toString());
+
+                //set player names
+                player1NameText = (TextView) findViewById(R.id.player1Name);
+                player2NameText = (TextView) findViewById(R.id.player2Name);
+                player3NameText = (TextView) findViewById(R.id.player3Name);
+                player4NameText = (TextView) findViewById(R.id.player4Name);
+                player5NameText = (TextView) findViewById(R.id.player5Name);
+                player6NameText = (TextView) findViewById(R.id.player6Name);
+
+                player1NameText.setText(player1Name);
+                player2NameText.setText(player2Name);
+                player3NameText.setText(player3Name);
+                player4NameText.setText(player4Name);
+                player5NameText.setText(player5Name);
+                player6NameText.setText(player6Name);
+
+                break;
+           
+            default:
+                break;
+
+        }
+
+        LoadAds();
+
+        playerCounter = (TextView) findViewById(R.id.playerCounter);
+        playerCounter.setText("Player " + currentPlayer.toString() + "s Turn");
+
+        //set current turn to 1;
+        turnCounterInteger = 1;
+        turnCounter = (TextView) findViewById(R.id.turnCounter);
+        turnCounter.setText("Turn " + turnCounterInteger.toString());
+
+        if(timeLimitCBIsChecked == 1) {
+            Counter();
+        }
+
+    }
+
+    public void twoPlayerGame(){
+        player1GraveyardSizeInteger = 0;
+        player1PoisonInteger = 0;
+        player1HealthInteger = 20;
+        player1DeckSizeInteger = 60;
+        player1HandSizeInteger = 0;
+
+        player2GraveyardSizeInteger = 0;
+        player2PoisonInteger = 0;
+        player2HealthInteger = 20;
+        player2DeckSizeInteger = 60;
+        player2HandSizeInteger = 0;
+
+        player3GraveyardSizeInteger = 0;
+        player3PoisonInteger = 0;
+        player3HealthInteger = 0;
+        player3DeckSizeInteger = 0;
+        player3HandSizeInteger = 0;
+
+        player4GraveyardSizeInteger = 0;
+        player4PoisonInteger = 0;
+        player4HealthInteger = 0;
+        player4DeckSizeInteger = 0;
+        player4HandSizeInteger = 0;
+
+        player5GraveyardSizeInteger = 0;
+        player5PoisonInteger = 0;
+        player5HealthInteger = 0;
+        player5DeckSizeInteger = 0;
+        player5HandSizeInteger = 0;
+
+        player6GraveyardSizeInteger = 0;
+        player6PoisonInteger = 0;
+        player6HealthInteger = 0;
+        player6DeckSizeInteger = 0;
+        player6HandSizeInteger = 0;
+
+    }
+
+    public void threePlayerGame(){
+        player1GraveyardSizeInteger = 0;
+        player1PoisonInteger = 0;
+        player1HealthInteger = 20;
+        player1DeckSizeInteger = 60;
+        player1HandSizeInteger = 0;
+
+        player2GraveyardSizeInteger = 0;
+        player2PoisonInteger = 0;
+        player2HealthInteger = 20;
+        player2DeckSizeInteger = 60;
+        player2HandSizeInteger = 0;
+
+        player3GraveyardSizeInteger = 0;
+        player3PoisonInteger = 0;
+        player3HealthInteger = 20;
+        player3DeckSizeInteger = 60;
+        player3HandSizeInteger = 0;
+
+        player4GraveyardSizeInteger = 0;
+        player4PoisonInteger = 0;
+        player4HealthInteger = 0;
+        player4DeckSizeInteger = 0;
+        player4HandSizeInteger = 0;
+
+        player5GraveyardSizeInteger = 0;
+        player5PoisonInteger = 0;
+        player5HealthInteger = 0;
+        player5DeckSizeInteger = 0;
+        player5HandSizeInteger = 0;
+
+        player6GraveyardSizeInteger = 0;
+        player6PoisonInteger = 0;
+        player6HealthInteger = 0;
+        player6DeckSizeInteger = 0;
+        player6HandSizeInteger = 0;
+
+    }
+
+    public void fourPlayerGame(){
+        player1GraveyardSizeInteger = 0;
+        player1PoisonInteger = 0;
+        player1HealthInteger = 20;
+        player1DeckSizeInteger = 60;
+        player1HandSizeInteger = 0;
+
+        player2GraveyardSizeInteger = 0;
+        player2PoisonInteger = 0;
+        player2HealthInteger = 20;
+        player2DeckSizeInteger = 60;
+        player2HandSizeInteger = 0;
+
+        player3GraveyardSizeInteger = 0;
+        player3PoisonInteger = 0;
+        player3HealthInteger = 20;
+        player3DeckSizeInteger = 60;
+        player3HandSizeInteger = 0;
+
+        player4GraveyardSizeInteger = 0;
+        player4PoisonInteger = 0;
+        player4HealthInteger = 20;
+        player4DeckSizeInteger = 60;
+        player4HandSizeInteger = 0;
+
+        player5GraveyardSizeInteger = 0;
+        player5PoisonInteger = 0;
+        player5HealthInteger = 0;
+        player5DeckSizeInteger = 0;
+        player5HandSizeInteger = 0;
+
+        player6GraveyardSizeInteger = 0;
+        player6PoisonInteger = 0;
+        player6HealthInteger = 0;
+        player6DeckSizeInteger = 0;
+        player6HandSizeInteger = 0;
+
+
+    }
+
+    public void fivePlayerGame(){
+        player1GraveyardSizeInteger = 0;
+        player1PoisonInteger = 0;
+        player1HealthInteger = 20;
+        player1DeckSizeInteger = 60;
+        player1HandSizeInteger = 0;
+
+        player2GraveyardSizeInteger = 0;
+        player2PoisonInteger = 0;
+        player2HealthInteger = 20;
+        player2DeckSizeInteger = 60;
+        player2HandSizeInteger = 0;
+
+        player3GraveyardSizeInteger = 0;
+        player3PoisonInteger = 0;
+        player3HealthInteger = 20;
+        player3DeckSizeInteger = 60;
+        player3HandSizeInteger = 0;
+
+        player4GraveyardSizeInteger = 0;
+        player4PoisonInteger = 0;
+        player4HealthInteger = 20;
+        player4DeckSizeInteger = 60;
+        player4HandSizeInteger = 0;
+
+        player5GraveyardSizeInteger = 0;
+        player5PoisonInteger = 0;
+        player5HealthInteger = 20;
+        player5DeckSizeInteger = 60;
+        player5HandSizeInteger = 0;
+
+        player6GraveyardSizeInteger = 0;
+        player6PoisonInteger = 0;
+        player6HealthInteger = 0;
+        player6DeckSizeInteger = 0;
+        player6HandSizeInteger = 0;
+
+    }
+
+    public void sixPlayerGame(){
+        player1GraveyardSizeInteger = 0;
+        player1PoisonInteger = 0;
+        player1HealthInteger = 20;
+        player1DeckSizeInteger = 60;
+        player1HandSizeInteger = 0;
+
+        player2GraveyardSizeInteger = 0;
+        player2PoisonInteger = 0;
+        player2HealthInteger = 20;
+        player2DeckSizeInteger = 60;
+        player2HandSizeInteger = 0;
+
+        player3GraveyardSizeInteger = 0;
+        player3PoisonInteger = 0;
+        player3HealthInteger = 20;
+        player3DeckSizeInteger = 60;
+        player3HandSizeInteger = 0;
+
+        player4GraveyardSizeInteger = 0;
+        player4PoisonInteger = 0;
+        player4HealthInteger = 20;
+        player4DeckSizeInteger = 60;
+        player4HandSizeInteger = 0;
+
+        player5GraveyardSizeInteger = 0;
+        player5PoisonInteger = 0;
+        player5HealthInteger = 20;
+        player5DeckSizeInteger = 60;
+        player5HandSizeInteger = 0;
+
+        player6GraveyardSizeInteger = 0;
+        player6PoisonInteger = 0;
+        player6HealthInteger = 20;
+        player6DeckSizeInteger = 60;
+        player6HandSizeInteger = 0;
+
+    }
+
+    public void plusOne(View v){
+
+        beingChangedInteger = beingChangedInteger + 1;
+        variableIncreaseDecrease();
+
+
+    }
+
+    public void plusFive(View v){
+
+        beingChangedInteger = beingChangedInteger + 5;
+        variableIncreaseDecrease();
+
+    }
+
+    public void minusOne(View v){
+
+        beingChangedInteger = beingChangedInteger - 1;
+        variableIncreaseDecrease();
+
+    }
+
+    public void minusFive(View v){
+
+        beingChangedInteger = beingChangedInteger - 5;
+        variableIncreaseDecrease();
+
+    }
+
+    public void variableIncreaseDecrease(){
+
+        if(beingChangedID != null) {
+            switch (beingChangedID.getText().toString()) {
+                case "Player One Health":
+                    player1HealthInteger = beingChangedInteger;
+                    player1Health = (TextView) findViewById(R.id.player1Health);
+                    player1Health.setText(player1HealthInteger.toString());
+                    break;
+                case "Player One Poison":
+                    player1PoisonInteger = beingChangedInteger;
+                    player1Poison = (TextView) findViewById(R.id.player1Poison);
+                    player1Poison.setText(player1PoisonInteger.toString());
+                    break;
+                case "Player One Deck Size":
+                    player1DeckSizeInteger = beingChangedInteger;
+                    player1DeckSize = (TextView) findViewById(R.id.player1DeckSize);
+                    player1DeckSize.setText(player1DeckSizeInteger.toString());
+                    break;
+                case "Player One Graveyard Size":
+                    player1GraveyardSizeInteger = beingChangedInteger;
+                    player1GraveyardSize = (TextView) findViewById(R.id.player1GraveyardSize);
+                    player1GraveyardSize.setText(player1GraveyardSizeInteger.toString());
+                    break;
+                case "Player One Hand Size":
+                    player1HandSizeInteger = beingChangedInteger;
+                    player1HandSize = (TextView) findViewById(R.id.player1HandSize);
+                    player1HandSize.setText(player1HandSizeInteger.toString());
+                    break;
+
+                case "Player Two Health":
+                    player2HealthInteger = beingChangedInteger;
+                    player2Health = (TextView) findViewById(R.id.player2Health);
+                    player2Health.setText(player2HealthInteger.toString());
+                    break;
+                case "Player Two Poison":
+                    player2PoisonInteger = beingChangedInteger;
+                    player2Poison = (TextView) findViewById(R.id.player2Poison);
+                    player2Poison.setText(player2PoisonInteger.toString());
+                    break;
+                case "Player Two Deck Size":
+                    player2DeckSizeInteger = beingChangedInteger;
+                    player2DeckSize = (TextView) findViewById(R.id.player2DeckSize);
+                    player2DeckSize.setText(player2DeckSizeInteger.toString());
+                    break;
+                case "Player Two Graveyard Size":
+                    player2GraveyardSizeInteger = beingChangedInteger;
+                    player2GraveyardSize = (TextView) findViewById(R.id.player2GraveyardSize);
+                    player2GraveyardSize.setText(player2GraveyardSizeInteger.toString());
+                    break;
+                case "Player Two Hand Size":
+                    player2HandSizeInteger = beingChangedInteger;
+                    player2HandSize = (TextView) findViewById(R.id.player2HandSize);
+                    player2HandSize.setText(player2HandSizeInteger.toString());
+                    break;
+
+                case "Player Three Health":
+                    player3HealthInteger = beingChangedInteger;
+                    player3Health = (TextView) findViewById(R.id.player3Health);
+                    player3Health.setText(player3HealthInteger.toString());
+                    break;
+                case "Player Three Poison":
+                    player3PoisonInteger = beingChangedInteger;
+                    player3Poison = (TextView) findViewById(R.id.player3Poison);
+                    player3Poison.setText(player3PoisonInteger.toString());
+                    break;
+                case "Player Three Deck Size":
+                    player3DeckSizeInteger = beingChangedInteger;
+                    player3DeckSize = (TextView) findViewById(R.id.player3DeckSize);
+                    player3DeckSize.setText(player3DeckSizeInteger.toString());
+                    break;
+                case "Player Three Graveyard Size":
+                    player3GraveyardSizeInteger = beingChangedInteger;
+                    player3GraveyardSize = (TextView) findViewById(R.id.player3GraveyardSize);
+                    player3GraveyardSize.setText(player3GraveyardSizeInteger.toString());
+                    break;
+                case "Player Three Hand Size":
+                    player3HandSizeInteger = beingChangedInteger;
+                    player3HandSize = (TextView) findViewById(R.id.player3HandSize);
+                    player3HandSize.setText(player3HandSizeInteger.toString());
+                    break;
+
+                case "Player Four Health":
+                    player4HealthInteger = beingChangedInteger;
+                    player4Health = (TextView) findViewById(R.id.player4Health);
+                    player4Health.setText(player4HealthInteger.toString());
+                    break;
+                case "Player Four Poison":
+                    player4PoisonInteger = beingChangedInteger;
+                    player4Poison = (TextView) findViewById(R.id.player4Poison);
+                    player4Poison.setText(player4PoisonInteger.toString());
+                    break;
+                case "Player Four Deck Size":
+                    player4DeckSizeInteger = beingChangedInteger;
+                    player4DeckSize = (TextView) findViewById(R.id.player4DeckSize);
+                    player4DeckSize.setText(player4DeckSizeInteger.toString());
+                    break;
+                case "Player Four Graveyard Size":
+                    player4GraveyardSizeInteger = beingChangedInteger;
+                    player4GraveyardSize = (TextView) findViewById(R.id.player4GraveyardSize);
+                    player4GraveyardSize.setText(player4GraveyardSizeInteger.toString());
+                    break;
+                case "Player Four Hand Size":
+                    player4HandSizeInteger = beingChangedInteger;
+                    player4HandSize = (TextView) findViewById(R.id.player4HandSize);
+                    player4HandSize.setText(player4HandSizeInteger.toString());
+                    break;
+
+                case "Player Five Health":
+                    player5HealthInteger = beingChangedInteger;
+                    player5Health = (TextView) findViewById(R.id.player5Health);
+                    player5Health.setText(player5HealthInteger.toString());
+                    break;
+                case "Player Five Poison":
+                    player5PoisonInteger = beingChangedInteger;
+                    player5Poison = (TextView) findViewById(R.id.player5Poison);
+                    player5Poison.setText(player5PoisonInteger.toString());
+                    break;
+                case "Player Five Deck Size":
+                    player5DeckSizeInteger = beingChangedInteger;
+                    player5DeckSize = (TextView) findViewById(R.id.player5DeckSize);
+                    player5DeckSize.setText(player5DeckSizeInteger.toString());
+                    break;
+                case "Player Five Graveyard Size":
+                    player5GraveyardSizeInteger = beingChangedInteger;
+                    player5GraveyardSize = (TextView) findViewById(R.id.player5GraveyardSize);
+                    player5GraveyardSize.setText(player5GraveyardSizeInteger.toString());
+                    break;
+                case "Player Five Hand Size":
+                    player5HandSizeInteger = beingChangedInteger;
+                    player5HandSize = (TextView) findViewById(R.id.player5HandSize);
+                    player5HandSize.setText(player5HandSizeInteger.toString());
+                    break;
+
+                case "Player Six Health":
+                    player6HealthInteger = beingChangedInteger;
+                    player6Health = (TextView) findViewById(R.id.player6Health);
+                    player6Health.setText(player6HealthInteger.toString());
+                    break;
+                case "Player Six Poison":
+                    player6PoisonInteger = beingChangedInteger;
+                    player6Poison = (TextView) findViewById(R.id.player6Poison);
+                    player6Poison.setText(player6PoisonInteger.toString());
+                    break;
+                case "Player Six Deck Size":
+                    player6DeckSizeInteger = beingChangedInteger;
+                    player6DeckSize = (TextView) findViewById(R.id.player6DeckSize);
+                    player6DeckSize.setText(player6DeckSizeInteger.toString());
+                    break;
+                case "Player Six Graveyard Size":
+                    player6GraveyardSizeInteger = beingChangedInteger;
+                    player6GraveyardSize = (TextView) findViewById(R.id.player6GraveyardSize);
+                    player6GraveyardSize.setText(player6GraveyardSizeInteger.toString());
+                    break;
+                case "Player Six Hand Size":
+                    player6HandSizeInteger = beingChangedInteger;
+                    player6HandSize = (TextView) findViewById(R.id.player6HandSize);
+                    player6HandSize.setText(player6HandSizeInteger.toString());
+                    break;
+
+
+                default:
+                    break;
+            }
+        }
+
+    }
+
+    public void endTurn(View v){
+
+        endTurn();
+
+    }
+
+    public void endTurn(){
+
+
+
+        if(player1HealthInteger != 0 | player2HealthInteger != 0 | player3HealthInteger != 0 | player4HealthInteger != 0 | player5HealthInteger != 0 | player6HealthInteger != 0) {
+
+            turnCounter = (TextView) findViewById(R.id.turnCounter);
+
+            if(currentPlayer < numberOfPlayersInteger){
+                currentPlayer = currentPlayer + 1;
+            }
+            else{
+                currentPlayer = 1;
+            }
+
+            switch (currentPlayer) {
+                case 1:
+                    if (player1HealthInteger <= 0) {
+                        endTurn();
+                    }
+                    else{
+                        turnCounterInteger = turnCounterInteger + 1;
+                        turnCounter.setText("Turn " + turnCounterInteger.toString());
+                    }
+                    break;
+                case 2:
+                    if (player2HealthInteger <= 0) {
+                        endTurn();
+                    }
+                    else{
+                        turnCounterInteger = turnCounterInteger + 1;
+                        turnCounter.setText("Turn " + turnCounterInteger.toString());
+                    }
+                    break;
+                case 3:
+                    if (player3HealthInteger <= 0) {
+                        endTurn();
+                    }
+                    else{
+                        turnCounterInteger = turnCounterInteger + 1;
+                        turnCounter.setText("Turn " + turnCounterInteger.toString());
+                    }
+                    break;
+                case 4:
+                    if (player4HealthInteger <= 0) {
+                        endTurn();
+                    }
+                    else{
+                        turnCounterInteger = turnCounterInteger + 1;
+                        turnCounter.setText("Turn " + turnCounterInteger.toString());
+                    }
+                    break;
+                case 5:
+                    if (player5HealthInteger <= 0) {
+                        endTurn();
+                    }
+                    else{
+                        turnCounterInteger = turnCounterInteger + 1;
+                        turnCounter.setText("Turn " + turnCounterInteger.toString());
+                    }
+                    break;
+                case 6:
+                    if (player6HealthInteger <= 0) {
+                        endTurn();
+                    }
+                    else{
+                        turnCounterInteger = turnCounterInteger + 1;
+                        turnCounter.setText("Turn " + turnCounterInteger.toString());
+                    }
+                    break;
+                default:
+
+                    break;
+            }
+        }
+        else{
+            everyOneIsDeadPopup();
+        }
+
+        playerCounter = (TextView) findViewById(R.id.playerCounter);
+        playerCounter.setText("Player " + currentPlayer.toString() + "s Turn");
+
+    }
+
+    //Popups
+
+    public void everyOneIsDeadPopup(){
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        TextView MyMsg = new TextView(this);
+        MyMsg.setText("Everyone is Dead");
+        MyMsg.setGravity(Gravity.CENTER_HORIZONTAL);
+        MyMsg.setMovementMethod(new ScrollingMovementMethod());
+        alertDialog.setView(MyMsg);
+        alertDialog.setTitle("Everyone is Dead");
+        //alertDialog.setMessage(Message);
+        alertDialog.setButton("Return to Main Screen", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                mainScreen();
+
+            }
+        });
+        alertDialog.setButton2("Stay here", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alertDialog.setIcon(R.drawable.ic_launcher);
+        alertDialog.show();
+
+    }
+
+    public void setTimerPopup(){
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        final EditText MyTimeAmount = new EditText(this);
+        MyTimeAmount.setHint("Enter Timer Amount");
+        MyTimeAmount.setInputType(InputType.TYPE_CLASS_NUMBER);
+        MyTimeAmount.setGravity(Gravity.CENTER_HORIZONTAL);
+        MyTimeAmount.setMovementMethod(new ScrollingMovementMethod());
+        alertDialog.setView(MyTimeAmount);
+        alertDialog.setTitle("Set Timer");
+        if(MyTimeAmount.getText().toString() != "") {
+            alertDialog.setButton("Set Timer", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                    countInteger = Integer.parseInt(MyTimeAmount.getText().toString());
+                    playerInfomation();
+
+                }
+            });
+        }
+        alertDialog.setIcon(R.drawable.ic_launcher);
+        alertDialog.show();
+
+    }
+
+    public void exitApp(){
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        TextView MyMsg = new TextView(this);
+        MyMsg.setText("Do you wish to exit?");
+        MyMsg.setGravity(Gravity.CENTER_HORIZONTAL);
+        //MyMsg.setMovementMethod(new ScrollingMovementMethod());
+        alertDialog.setView(MyMsg);
+        alertDialog.setTitle("Exit Application");
+
+            alertDialog.setButton("Exit Application", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                    finish();
+                    System.exit(0);
+                }
+            });
+        alertDialog.setButton2("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+
+            }
+        });
+
+        alertDialog.setIcon(R.drawable.ic_launcher);
+        alertDialog.show();
+
+    }
+
+    public void helpScreen(){
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        TextView MyMsg = new TextView(this);
+        MyMsg.setText("Main Screen: The numerical drop box is to indicate the total number of players. The Time Limit check box allows you to set a Time limit for your game before you start." + "\n\n" +
+        "Second Screen (Player Information): You may enter each players starting Life Total and Deck Size at this screen. Life total is important, since it will be the primary factor on who wins or looses the game, Deck Size is only if you wish to keep track of it. The defaults are 20 Life and 60 Deck Size." + "\n\n"  +
+        "Game Screen: This screen allows you to adjust the values of all the parameters you wish to keep track of. To do this, click on the Name or Value you wish to change. If you did this correctly, the large text at the bottom of the screen will change into what it is that you are editing. You can then press the + / - buttons at the bottom of the screen in increment / decrement the values accordingly. End turn changes who's turn it is. End Game brings you back to the main screen." + "\n\n" +
+        "Important Notes: The back button will close the application after bringing up a prompt. This application prevents your screen from timing out while it is open. If you minimize or close the app, your screen will time out as normal. ");
+
+
+        MyMsg.setGravity(Gravity.CENTER);
+        MyMsg.setMovementMethod(new ScrollingMovementMethod());
+        alertDialog.setView(MyMsg);
+        alertDialog.setTitle("Help");
+
+        alertDialog.setButton("Return", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+
+            }
+        });
+
+        alertDialog.setIcon(R.drawable.ic_launcher);
+        alertDialog.show();
+
+    }
+
+    //player one
+
+    public void playerOneHealth(View v){
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player One Health");
+
+        beingChangedInteger = player1HealthInteger;
+
+    }
+
+    public void playerOnePoison(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player One Poison");
+
+        beingChangedInteger = player1PoisonInteger;
+
+    }
+
+    public void playerOneDeckSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player One Deck Size");
+
+        beingChangedInteger = player1DeckSizeInteger;
+
+    }
+
+    public void playerOneGraveyardSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player One Graveyard Size");
+
+        beingChangedInteger = player1GraveyardSizeInteger;
+
+    }
+
+    public void playerOneHandSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player One Hand Size");
+
+        beingChangedInteger = player1HandSizeInteger;
+
+    }
+    
+    // player two
+
+    public void playerTwoHealth(View v){
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Two Health");
+
+        beingChangedInteger = player2HealthInteger;
+
+    }
+
+    public void playerTwoPoison(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Two Poison");
+
+        beingChangedInteger = player2PoisonInteger;
+
+    }
+
+    public void playerTwoDeckSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Two Deck Size");
+
+        beingChangedInteger = player2DeckSizeInteger;
+
+    }
+
+    public void playerTwoGraveyardSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Two Graveyard Size");
+
+        beingChangedInteger = player2GraveyardSizeInteger;
+
+    }
+
+    public void playerTwoHandSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Two Hand Size");
+
+        beingChangedInteger = player2HandSizeInteger;
+
+    }
+
+    //player three
+
+    public void playerThreeHealth(View v){
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Three Health");
+
+        beingChangedInteger = player3HealthInteger;
+
+    }
+
+    public void playerThreePoison(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Three Poison");
+
+        beingChangedInteger = player3PoisonInteger;
+
+    }
+
+    public void playerThreeDeckSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Three Deck Size");
+
+        beingChangedInteger = player3DeckSizeInteger;
+
+    }
+
+    public void playerThreeGraveyardSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Three Graveyard Size");
+
+        beingChangedInteger = player3GraveyardSizeInteger;
+
+    }
+
+    public void playerThreeHandSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Three Hand Size");
+
+        beingChangedInteger = player3HandSizeInteger;
+
+    }
+    
+    //player four
+    
+    public void playerFourHealth(View v){
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Four Health");
+
+        beingChangedInteger = player4HealthInteger;
+
+    }
+
+    public void playerFourPoison(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Four Poison");
+
+        beingChangedInteger = player4PoisonInteger;
+
+    }
+
+    public void playerFourDeckSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Four Deck Size");
+
+        beingChangedInteger = player4DeckSizeInteger;
+
+    }
+
+    public void playerFourGraveyardSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Four Graveyard Size");
+
+        beingChangedInteger = player4GraveyardSizeInteger;
+
+    }
+
+    public void playerFourHandSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Four Hand Size");
+
+        beingChangedInteger = player4HandSizeInteger;
+
+    }
+    
+    //player five
+
+    public void playerFiveHealth(View v){
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Five Health");
+
+        beingChangedInteger = player5HealthInteger;
+
+    }
+
+    public void playerFivePoison(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Five Poison");
+
+        beingChangedInteger = player5PoisonInteger;
+
+    }
+
+    public void playerFiveDeckSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Five Deck Size");
+
+        beingChangedInteger = player5DeckSizeInteger;
+
+    }
+
+    public void playerFiveGraveyardSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Five Graveyard Size");
+
+        beingChangedInteger = player5GraveyardSizeInteger;
+
+    }
+
+    public void playerFiveHandSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Five Hand Size");
+
+        beingChangedInteger = player5HandSizeInteger;
+
+    }
+    
+    //player six
+    
+    public void playerSixHealth(View v){
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Six Health");
+
+        beingChangedInteger = player6HealthInteger;
+
+    }
+
+    public void playerSixPoison(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Six Poison");
+
+        beingChangedInteger = player6PoisonInteger;
+
+    }
+
+    public void playerSixDeckSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Six Deck Size");
+
+        beingChangedInteger = player6DeckSizeInteger;
+
+    }
+
+    public void playerSixGraveyardSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Six Graveyard Size");
+
+        beingChangedInteger = player6GraveyardSizeInteger;
+
+    }
+
+    public void playerSixHandSize(View v){
+
+        beingChangedID = (TextView) findViewById(R.id.beingChangedID);
+        beingChangedID.setText("Player Six Hand Size");
+
+        beingChangedInteger = player6HandSizeInteger;
+
+    }
+
+    //End Game
+
+    public void endGame(View v){
+
+
+        mainScreen();
+
+    }
+
+
+}
